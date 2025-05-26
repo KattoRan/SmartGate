@@ -1,0 +1,66 @@
+/* Sidebar.css */
+
+.sidebar-navbar {
+  top: 0; /* Cách trên cùng 0 */
+  left: 0; /* Cách trái màn hình 0 */
+  min-height: 100vh;
+  width: 240px;
+  padding: 0;
+  margin-right: 10px;
+  background-color: #dceafd;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Để nó nằm trên các phần tử khác */
+}
+/* ----------------------- */
+.sidebar-header {
+  display: flex;
+  justify-content: center; /* căn giữa theo chiều ngang */
+  align-items: center; /* căn giữa theo chiều dọc */
+  height: 100px; /* chiều cao của header, bạn chỉnh tùy ý */
+  padding: 0 1rem; /* khoảng đệm trái phải nếu cần */
+  background-color: #dceafd; /* (tuỳ chọn) nền giống sidebar */
+}
+
+.sidebar-brand {
+  color: #000000;
+  text-decoration: none;
+}
+.sidebar-brand .logo {
+  height: 100px;
+  width: 150px;
+}
+/* ----------------------- */
+.divider {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #cbdaf5;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+}
+.sidebar-footer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+}
+.dashboard {
+  height: 50px;
+}
+.sidebar-nav .nav-link {
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.sidebar-footer .nav-link {
+  display: block;
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}

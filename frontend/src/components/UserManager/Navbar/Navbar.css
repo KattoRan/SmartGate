@@ -1,0 +1,25 @@
+.nav-container {
+  display: flex;
+  align-items: center; /* căn giữa theo chiều dọc */
+  background-color: #dceafd;
+  height: 60px;
+  max-width: 100vw;
+  padding: 0 1rem; /* tránh dính sát mép */
+}
+.header-nav {
+  display: flex; /* cần có để gap hoạt động */
+  gap: 40px;
+  flex-grow: 1; /* đẩy sang phải khi dùng justify-content-end */
+  padding-left: 30px;
+  align-items: center;
+  height: 40px;
+}
+.header-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-bottom: 6px;
+}
+.header-nav .nav-link.active {
+  border-bottom: 2px solid #000000;
+}

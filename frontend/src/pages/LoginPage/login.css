@@ -1,0 +1,106 @@
+.login-page {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #f9fbff;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.login-container {
+  background: #dceafd;
+  padding: 40px;
+  border-radius: 12px;
+  z-index: 2;
+  width: 350px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input {
+  width: 330px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #ffffff;
+}
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 40px; /* hoặc tùy chỉnh để icon nằm giữa input */
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #666;
+  transition: color 0.2s;
+}
+.btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: #6aaefc;
+  color: white;
+}
+
+.btn.secondary {
+  background: #6aaefc;
+  color: white;
+}
+
+.divider {
+  margin: 16px 0;
+  border: none;
+  border-top: 1px solid #cbdaf5;
+}
+
+.right-avatar {
+  position: absolute;
+  right: 250px;
+  bottom: 100px;
+  z-index: 1;
+}
+
+.right-avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.background-shape {
+  position: absolute;
+  left: -100px;
+  top: -250px;
+  width: 800px;
+  height: 800px;
+  background: #83b9f2;
+  border-radius: 50%;
+  z-index: 0;
+}
+.text-danger {
+  color: red;
+}
