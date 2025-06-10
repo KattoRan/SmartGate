@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Offcanvas } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import {
@@ -15,10 +15,16 @@ import "./Sidebar.css";
 
 function Sidebar({ isAdmin = false }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Hàm kiểm tra active
   const isActive = (to, exact = false) => {
     return exact ? location.pathname === to : location.pathname.startsWith(to);
+  };
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
   };
   return (
     <Navbar expand="lg" className="sidebar-navbar">
@@ -50,16 +56,32 @@ function Sidebar({ isAdmin = false }) {
           </Nav>
           <hr className="divider" />
           <Nav className="sidebar-nav flex-column">
-            <Nav.Link as={Link} to="/users" active={isActive("/users")}>
+            <Nav.Link
+              as={Link}
+              to="/home/users"
+              active={isActive("/home/users")}
+            >
               <BsPeopleFill size={18} /> Người dùng
             </Nav.Link>
-            <Nav.Link as={Link} to="/cards" active={isActive("/cards")}>
+            <Nav.Link
+              as={Link}
+              to="/home/cards"
+              active={isActive("/home/cards")}
+            >
               <BsCreditCard2FrontFill size={18} /> Thẻ ra vào
             </Nav.Link>
-            <Nav.Link as={Link} to="/stats" active={isActive("/stats")}>
+            <Nav.Link
+              as={Link}
+              to="/home/stats"
+              active={isActive("/home/stats")}
+            >
               <BsBarChartFill size={18} /> Thống kê
             </Nav.Link>
-            <Nav.Link as={Link} to="/settings" active={isActive("/settings")}>
+            <Nav.Link
+              as={Link}
+              to="/home/settings"
+              active={isActive("/home/settings")}
+            >
               <BsGearFill size={18} /> Cấu hình
             </Nav.Link>
             {isAdmin && (
@@ -80,6 +102,9 @@ function Sidebar({ isAdmin = false }) {
                 active={isActive("/account", true)}
               >
                 <BsPersonCircle size={18} /> Tài khoản
+              </Nav.Link>
+              <Nav.Link onClick={handleLogout} style={{ cursor: "pointer" }}>
+                <BsShieldLockFill size={18} /> Đăng xuất
               </Nav.Link>
             </Nav>
           </div>

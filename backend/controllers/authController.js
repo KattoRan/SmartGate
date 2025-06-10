@@ -19,7 +19,7 @@ exports.login = async (req, res) => {
     }
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
+    if (!isMatch && user.password !== password) {
       return res.status(400).json({ message: "Mật khẩu không chính xác" });
     }
 
@@ -35,16 +35,7 @@ exports.login = async (req, res) => {
 };
 exports.register = async (req, res) => {
   try {
-    const {
-      email,
-      fullName,
-      dob,
-      gender,
-      address,
-      phone,
-      citizenId,
-      password,
-    } = req.body;
+    const { email, citizenId, password } = req.body;
     if (!req.file) {
       return res.status(400).json({ message: "Chưa upload ảnh!" });
     }
@@ -52,12 +43,7 @@ exports.register = async (req, res) => {
     const imageUrl = `http://localhost:5000/uploads/${fileName}`;
     await User.create({
       email: email,
-      full_name: fullName,
-      dob: dob,
-      gender: gender,
-      address: address,
       citizen_id: citizenId,
-      phone: phone,
       password: password,
       avatar: imageUrl,
     });

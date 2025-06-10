@@ -1,9 +1,21 @@
-export const getAllUser = async () => {
+export const getAllUser = async ({ page, limit } = {}) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    console.log("Token không tồn tại");
+    return;
+  }
+
   try {
-    const response = await fetch("http://localhost:5000/api/user", {
-      // Sửa URL backend
-      method: "GET",
-    });
+    const response = await fetch(
+      `http://localhost:5000/api/user?page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Lỗi khi lấy dữ liệu");
@@ -14,6 +26,7 @@ export const getAllUser = async () => {
     console.log(error);
   }
 };
+
 export const getUser = async (id) => {
   try {
     const response = await fetch(`http://localhost:5000/api/user/${id}`, {

@@ -1,23 +1,46 @@
-// App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/LoginPage/login.jsx";
 import Register from "./pages/RegisterPage/register.jsx";
 import UserListPage from "./pages/UserManagerPage/userManager.jsx";
-import Sidebar from "./components/Sidebar/Sidebar";
 import UserList from "./components/UserManager/UserTable/UserList";
 import UserProfile from "./components/UserManager/UserDetail/UserDetail";
+import RequireAuth from "./components/Auth/RequireAuth.jsx";
+import RequireRole from "./components/Auth/RequireRole.jsx";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        {/* Public routes */}
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Sidebar />} />
-        <Route path="/users" element={<UserListPage />}>
+
+        {/* Protected routes */}
+        <Route
+          path="/home"
+          element={
+            <RequireAuth>
+              <UserListPage />
+            </RequireAuth>
+          }
+        >
           <Route path="" element={<UserList />} />
           <Route path=":id" element={<UserProfile />} />
         </Route>
-        {/* các route khác */}
+
+        <Route
+          path="/admin/home"
+          element={
+            <RequireAuth>
+              <RequireRole role="admin">
+                <UserListPage />
+              </RequireRole>
+            </RequireAuth>
+          }
+        >
+          <Route path="" element={<UserList />} />
+          <Route path=":id" element={<UserProfile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

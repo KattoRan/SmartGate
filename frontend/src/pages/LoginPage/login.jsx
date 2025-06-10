@@ -22,12 +22,14 @@ const Login = () => {
         const userData = await loginUser(data);
         console.log("Đăng nhập thành công:", userData);
         sessionStorage.setItem("token", userData.token);
+        localStorage.setItem("user", JSON.stringify(userData.user));
         navigate("/home");
       } catch (error) {
-        setError(error.message || "Login failed");
+        setError(error.message || "Đăng nhập thất bại");
       }
     }
   };
+
   const handleRegister = () => {
     navigate("/register");
   };
@@ -39,42 +41,48 @@ const Login = () => {
 
         {error && <p className="text-danger">{error}</p>}
 
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Hãy nhập email của bạn"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <span
-            className="toggle-password"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </span>
-        </div>
+          <div className="form-group">
+            <label>Password</label>
+            <div className="password-input-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Hay nhập mật khẩu của bạn"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
+            </div>
+          </div>
 
-        <button type="submit" className="btn primary" onClick={handleSubmit}>
-          Sign Up
-        </button>
+          <button type="submit" className="btn primary">
+            Đăng Nhập
+          </button>
+        </form>
+
         <hr className="divider" />
+
         <button className="btn secondary" onClick={handleRegister}>
-          Register Now
+          Đăng Ký Ngay
         </button>
       </div>
 

@@ -12,7 +12,6 @@ const User = sequelize.define(
     },
     full_name: {
       type: DataTypes.STRING(100),
-      allowNull: false,
     },
     dob: {
       type: DataTypes.DATEONLY,

@@ -2,21 +2,36 @@ const { Op } = require("sequelize");
 const User = require("../models/UserModel");
 exports.getAll = async (req, res) => {
   try {
-    const users = await User.findAll();
-    //console.log("user:", users);
-    if (!users || users.length === 0) {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await User.findAndCountAll({
+      limit,
+      offset,
+      order: [["createdAt", "DESC"]], // tuỳ sắp xếp theo nhu cầu
+    });
+
+    if (!rows || rows.length === 0) {
       return res
         .status(400)
         .json({ message: "Không có dữ liệu trong database" });
     }
 
-    // Trả về mảng users luôn
-    res.status(200).json({ users });
+    const totalPages = Math.ceil(count / limit);
+
+    res.status(200).json({
+      users: rows,
+      totalItems: count,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Lỗi server khi lấy dữ liệu" });
   }
 };
+
 exports.getOne = async (req, res) => {
   const id = req.params.id;
   console.log(id);
