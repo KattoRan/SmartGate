@@ -23,7 +23,11 @@ const Login = () => {
         console.log("Đăng nhập thành công:", userData);
         sessionStorage.setItem("token", userData.token);
         localStorage.setItem("user", JSON.stringify(userData.user));
-        navigate("/home");
+        if (userData.user.role === "admin") {
+          navigate("/admin/home");
+        } else {
+          navigate("/home");
+        }
       } catch (error) {
         setError(error.message || "Đăng nhập thất bại");
       }
@@ -87,10 +91,7 @@ const Login = () => {
       </div>
 
       <div className="right-avatar">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/9131/9131529.png"
-          alt="avatar"
-        />
+        <img src="/images/default_avatar.png" alt="avatar" />
       </div>
 
       <div className="background-shape" />

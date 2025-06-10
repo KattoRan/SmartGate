@@ -1,137 +1,351 @@
-.user-profile-wrapper {
-  padding: 2rem;
-  max-width: 100%;
+/* Reset margin và padding mặc định */
+html,
+body {
+  margin-top: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-size: 16px;
+  background: #f4f6fb;
+}
+
+.profile-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #e0e7ff 0%, #f4f6fb 100%);
   margin-top: 10px;
-  font-family: Arial, sans-serif;
-  background-color: #dceafd;
-  padding: 80px;
-  padding-top: 10px;
 }
 
-.user-box {
-  background-color: #f8f9fa;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-row {
+.profile-content-container {
+  flex: 1;
+  padding: 32px 0;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  margin: auto;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.profile-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.profile-img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-}
-
-.profile-right {
-  margin-top: 1rem;
-}
-
-.profile-right button {
-  margin-left: 1rem;
-}
-
-.btn-upload {
-  background-color: #000;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-delete {
-  background-color: transparent;
-  color: #6c757d;
-  padding: 0.5rem 1rem;
-  border: 1px solid #6c757d;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.user-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.user-form .form-row {
-  display: flex;
-  margin-bottom: 1rem;
-  gap: 195px;
-}
-
-.user-form .form-group {
-  display: flex;
-  flex-direction: column;
-  width: 450px;
-}
-
-.user-form .form-group label {
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-.user-form .form-group input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.profile-content {
+  position: relative; /* Để các nút position absolute dựa vào đây */
+  background: #fff;
+  padding: 80px 40px 36px 40px; /* tăng padding-top lên 80px */
+  border: 1px solid #e3e8f0;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60, 80, 180, 0.08);
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
   width: 100%;
 }
-.button-row {
+
+.profile-header {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-.btn {
-  padding: 0.5rem 1.25rem;
+.profile-avatar-small {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 24px;
+  object-fit: cover;
+  border: 2px solid #a5b4fc;
+  background: #f1f5ff;
+}
+
+.profile-info h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: #2d3a5a;
+}
+
+.profile-info p {
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: 500;
+  margin: 8px 0 0;
+}
+
+.profile-details {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.detail-section {
+  flex: 1;
+  min-width: 260px;
+}
+
+.detail-section label {
+  font-size: 17px;
   font-weight: 600;
-  border: none;
-  border-radius: 6px;
+  color: #374151;
+  margin-bottom: 8px;
+  display: block;
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+
+.detail-section p {
+  font-size: 16px;
+  color: #374151;
+  margin: 0 0 18px;
+}
+
+/* Input mặc định khi có thể chỉnh sửa */
+.profile-edit-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #c7d2fe;
+  font-size: 16px;
+  box-sizing: border-box;
+  color: #22223b;
+  background-color: #f8fafc;
+  margin-bottom: 12px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.profile-edit-input:focus {
+  border: 1.5px solid #6366f1;
+  outline: none;
+  box-shadow: 0 0 0 2px #a5b4fc33;
+}
+
+/* Select mặc định (có thể chỉnh sửa) */
+.profile-edit-input:not(:disabled):not([readonly]) {
+  background-color: #f8fafc;
+  color: #22223b;
+  border: 1.5px solid #6366f1;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-/* Primary = blue */
-.btn-primary {
-  background-color: #007bff;
+.profile-edit-input:not(:disabled):not([readonly]):focus {
+  border: 1.5px solid #4338ca;
+  box-shadow: 0 0 0 2px #a5b4fc33;
+  background-color: #eef2ff;
+}
+
+/* Input không chỉnh sửa được (readOnly) */
+.profile-edit-input[readonly],
+.profile-edit-input:read-only,
+.profile-edit-input:disabled {
+  background-color: #f1f5f9;
+  color: #a1a1aa;
+  cursor: not-allowed;
+  border: 1.5px solid #e5e7eb;
+}
+
+/* Giảm opacity cho các label gắn với field không chỉnh được */
+.detail-section label:has(+ input[readonly]),
+.detail-section label:has(+ select:disabled) {
+  color: #a1a1aa;
+}
+
+.profile-avatar-preview-container {
+  margin-top: 12px;
+}
+
+.profile-avatar-preview {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid #a5b4fc;
+  background: #f1f5ff;
+  box-shadow: 0 2px 8px rgba(60, 80, 180, 0.07);
+}
+
+.profile-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.profile-cancel-button,
+.profile-done-button,
+.profile-edit-button,
+.profile-change-password-button,
+.profile-set-password-button,
+.profile-cancel-modal-button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(60, 80, 180, 0.04);
+}
+
+.profile-cancel-button,
+.profile-cancel-modal-button {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.profile-cancel-button:hover,
+.profile-cancel-modal-button:hover {
+  background: #d1d5db;
+}
+
+.profile-done-button,
+.profile-set-password-button {
+  background: linear-gradient(90deg, #6366f1 60%, #60a5fa 100%);
   color: #fff;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.profile-done-button:hover,
+.profile-set-password-button:hover {
+  background: linear-gradient(90deg, #4f46e5 60%, #2563eb 100%);
 }
 
-/* Success = green */
-.btn-success {
-  background-color: #28a745;
+.profile-edit-button {
+  background: #fff;
+  color: #6366f1;
+  border: 1.5px solid #6366f1;
+}
+
+.profile-edit-button:hover {
+  background: #6366f1;
   color: #fff;
 }
 
-.btn-success:hover {
-  background-color: #1e7e34;
+.profile-change-password-button {
+  background: #fef08a;
+  color: #b45309;
 }
 
-/* Secondary = grey */
-.btn-secondary {
-  background-color: #6c757d;
+.profile-change-password-button:hover {
+  background: #fde047;
+  color: #a16207;
+}
+
+.profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 41, 59, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.profile-modal-content {
+  background-color: #fff;
+  padding: 36px 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(60, 80, 180, 0.13);
+  max-width: 420px;
+  width: 100%;
+}
+
+.profile-modal-section {
+  display: flex;
+  grid-gap: 12px;
+  margin-bottom: 18px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profile-modal-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 18px;
+}
+
+.profile-modal-label {
+  font-size: 16px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 7px;
+  border: 1.5px solid #c7d2fe;
+  background: #f8fafc;
+  color: #22223b;
+  margin-top: 6px;
+  margin-bottom: 2px;
+  transition: border 0.2s;
+}
+
+.profile-modal-label:focus {
+  border: 1.5px solid #6366f1;
+  outline: none;
+}
+
+.profile-modal-actions {
+  grid-gap: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.profile-error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin: 0;
+}
+
+.profile-loading {
+  padding: 24px;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+}
+
+.profile-header-actions {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.profile-back-button {
+  position: static;
+  background: #fff;
+  color: #6366f1;
+  border: 1.5px solid #6366f1;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.profile-back-button:hover {
+  background: #6366f1;
   color: #fff;
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
+.profile-change-password-fixed {
+  position: static;
+  background: #fef08a;
+  color: #b45309;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(60, 80, 180, 0.04);
+  transition: background 0.2s, color 0.2s;
+}
+.profile-change-password-fixed:hover {
+  background: #fde047;
+  color: #a16207;
 }

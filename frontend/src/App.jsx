@@ -38,8 +38,8 @@ function App() {
             </RequireAuth>
           }
         >
-          <Route path="" element={<UserList />} />
-          <Route path=":id" element={<UserProfile />} />
+          <Route path="users" element={<UserList />} />
+          <Route path="users/:id" element={<UserProfile />} />
         </Route>
       </Routes>
     </BrowserRouter>

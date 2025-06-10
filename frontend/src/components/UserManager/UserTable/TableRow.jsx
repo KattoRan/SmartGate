@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import "./style.css"; // viết CSS ở dưới vào đây nếu chưa có
 
@@ -13,6 +13,7 @@ const TableRow = ({
   onUserDeleted,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef();
 
@@ -24,7 +25,8 @@ const TableRow = ({
     });
 
   const handleViewDetail = () => {
-    navigate(`/users/${id}`);
+    const currentPath = location.pathname;
+    navigate(`${currentPath}/${id}`);
   };
 
   const handleDeleteUser = async () => {
