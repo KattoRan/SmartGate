@@ -27,6 +27,7 @@ router.post(
 );
 router.get("/search", userController.searchUser);
 router.get("/:id", userController.getOne);
+router.delete("/:id", verifyToken, userController.deleteUser);
 router.put(
   "/:id",
   verifyToken,

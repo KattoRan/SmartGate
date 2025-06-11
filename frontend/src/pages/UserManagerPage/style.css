@@ -8,3 +8,6 @@
   flex-direction: column;
   flex-grow: 1; /* chiếm phần còn lại */
 }
+.flex-grow-1 {
+  margin-left: 250px; /* Để tránh bị đè */
+}

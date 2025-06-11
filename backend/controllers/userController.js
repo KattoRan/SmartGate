@@ -146,3 +146,18 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ message: "Lỗi server khi tạo người dùng" });
   }
 };
+exports.deleteUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findOne({ where: { id: id } });
+    if (!user) {
+      return res.status(400).json({ message: "Không tìm thấy người dùng" });
+    }
+
+    await user.destroy();
+    res.status(200).json({ message: "Xoá người dùng thành công" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Lỗi server khi xoá người dùng" });
+  }
+};

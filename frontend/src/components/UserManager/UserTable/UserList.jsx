@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import "./style.css";
 import { Table } from "react-bootstrap";
-import { getAllUser, searchUser } from "../../../services/user-service";
+import {
+  getAllUser,
+  searchUser,
+  deleteUser,
+} from "../../../services/user-service";
 import TableRow from "./TableRow";
 import { FaSearch } from "react-icons/fa";
 import Pagination from "../../Pagination/Pagination.jsx";
@@ -10,7 +14,7 @@ const UserManager = () => {
   const [currentUsers, setCurrentUsers] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
@@ -34,8 +38,11 @@ const UserManager = () => {
     }
   }, [searchText, currentPage, itemsPerPage]);
 
-  const handleUserDeleted = (id) => {
-    setCurrentUsers((prev) => prev.filter((user) => user.id !== id));
+  const handleUserDeleted = async (id) => {
+    await deleteUser(id);
+    setCurrentUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+    // load lại danh sách người dùng
+    fetchUsers();
   };
 
   useEffect(() => {

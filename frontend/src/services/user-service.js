@@ -131,6 +131,31 @@ export const createUser = async (newUser) => {
     throw error;
   }
 };
+export const deleteUser = async (id) => {
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    console.log("Token không tồn tại");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/user/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Xoá người dùng thất bại");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const searchUser = async ({ searchText }) => {
   try {
     const response = await fetch(
