@@ -9,12 +9,12 @@ function ListAddNavbar() {
         <Navbar.Toggle aria-controls="list-add-navbar" hidden />
         <Navbar.Collapse id="list-add-navbar">
           <Nav className="header-nav">
-            <Nav.Link as={NavLink} to="/users">
+            <Nav.Link as={NavLink} to="/admin/users" end>
               <BsListUl size={22} />
               Danh sách
             </Nav.Link>
 
-            <Nav.Link as={NavLink} to="/users/add-user">
+            <Nav.Link as={NavLink} to="/admin/users/add-user">
               <BsPlusCircle size={22} />
               Thêm mới
             </Nav.Link>

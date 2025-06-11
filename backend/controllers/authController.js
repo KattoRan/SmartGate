@@ -45,7 +45,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Chưa upload ảnh!" });
     }
     const fileName = req.file.filename;
-    const imageUrl = `http://localhost:5000/uploads/${fileName}`;
+    const imageUrl = `/uploads/${fileName}`;
     await User.create({
       email: email,
       citizen_id: citizenId,

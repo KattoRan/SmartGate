@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Thêm useNavigate
-import { getUser, updateUser } from "../../../services/user-service";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import {
+  getUser,
+  updateUser,
+  createUser,
+} from "../../../services/user-service";
 import "./UserDetail.css";
 
 export default function UserProfile() {
-  const { id } = useParams();
-  const navigate = useNavigate(); // Khởi tạo navigate
+  const { userId } = useParams();
+  console.log("UserProfile component rendered with userId:", userId);
+  const location = useLocation();
+  const isAccountPage =
+    location.pathname === "/account" || location.pathname === "/home/account";
+  const id = isAccountPage
+    ? JSON.parse(localStorage.getItem("user"))?.id
+    : userId;
+
+  const navigate = useNavigate();
+  const isAddMode = id === "add-user";
+
   const [profile, setProfile] = useState({});
   const [editedProfile, setEditedProfile] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(isAddMode); // Nếu là thêm mới thì luôn cho sửa
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [passwordData, setPasswordData] = useState({
@@ -19,16 +33,25 @@ export default function UserProfile() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const res = await getUser(id);
-      setProfile(res.user);
-      setEditedProfile(res.user);
-    };
-    fetchUser();
-  }, [id]);
+    if (!isAddMode) {
+      const fetchUser = async () => {
+        const res = await getUser(id);
+        setProfile(res.user);
+        setEditedProfile(res.user);
+      };
+      fetchUser();
+    } else {
+      setEditedProfile({});
+      setProfile({});
+      setIsEditing(true);
+    }
+  }, [id, isAddMode]);
 
   const avatarSrc =
-    previewImage || profile.avatar || "/images/default_avatar.png";
+    previewImage ||
+    (profile.avatar
+      ? `http://localhost:5000${profile.avatar}`
+      : "/images/default_avatar.png");
 
   const handleEdit = () => setIsEditing(true);
   const handleCancel = () => {
@@ -46,23 +69,39 @@ export default function UserProfile() {
     const file = e.target.files[0];
     if (file) {
       setPreviewImage(URL.createObjectURL(file));
-      // bạn có thể upload ảnh tại đây nếu cần
+      setEditedProfile((prev) => ({ ...prev, avatar: file }));
     }
   };
 
   const handleSave = async () => {
     try {
-      const res = await updateUser(id, editedProfile);
-      if (res.data.EC === 0) {
-        setProfile(editedProfile);
-        setIsEditing(false);
-        alert("Cập nhật thành công!");
+      if (isAddMode) {
+        // Validation đơn giản
+        if (!editedProfile.citizen_id || !editedProfile.password) {
+          alert("Vui lòng nhập đầy đủ Citizen ID và Password");
+          return;
+        }
+
+        const res = await createUser(editedProfile);
+        if (res.status === 201 || res.status === 200) {
+          alert("Thêm mới thành công!");
+          navigate("/admin/home/users");
+        } else {
+          alert(res.data?.message || "Tạo người dùng thất bại");
+        }
       } else {
-        alert("Cập nhật thất bại: " + res.data.EM);
+        const res = await updateUser(id, editedProfile);
+        if (res.status === 200) {
+          setProfile(editedProfile);
+          setIsEditing(false);
+          alert("Cập nhật thành công!");
+        } else {
+          alert(res.data?.message || "Cập nhật thất bại");
+        }
       }
     } catch (error) {
-      console.error("Update failed:", error);
-      alert("Lỗi hệ thống khi cập nhật.");
+      console.error("Error:", error);
+      alert("Lỗi hệ thống.");
     }
   };
 
@@ -80,7 +119,6 @@ export default function UserProfile() {
       newErrors.confirmPassword = "Mật khẩu không khớp";
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      // gọi API đổi mật khẩu tại đây
       alert("Đổi mật khẩu thành công (giả lập)");
       setShowPasswordModal(false);
     }
@@ -90,7 +128,6 @@ export default function UserProfile() {
     <div className="profile-wrapper">
       <div className="profile-content-container">
         <div className="profile-content">
-          {/* Nút Back và Change Password cùng hàng, bên phải */}
           <div className="profile-header-actions">
             <button
               className="profile-back-button"
@@ -99,13 +136,15 @@ export default function UserProfile() {
             >
               ← Back
             </button>
-            <button
-              className="profile-change-password-fixed"
-              onClick={() => setShowPasswordModal(true)}
-              type="button"
-            >
-              Change Password
-            </button>
+            {!isAddMode && (
+              <button
+                className="profile-change-password-fixed"
+                onClick={() => setShowPasswordModal(true)}
+                type="button"
+              >
+                Change Password
+              </button>
+            )}
           </div>
 
           <div className="profile-header">
@@ -114,7 +153,7 @@ export default function UserProfile() {
               alt={profile.username || "User"}
               className="profile-avatar-small"
               onError={(e) => {
-                e.target.src = "/images/default_avatar.png"; // Đặt ảnh mặc định nếu không tải được
+                e.target.src = "/images/default_avatar.png";
               }}
             />
             <div className="profile-info">
@@ -124,6 +163,7 @@ export default function UserProfile() {
               <p>{profile.email || "Not provided"}</p>
             </div>
           </div>
+
           <div className="profile-details">
             <div className="detail-section left-column">
               <div>
@@ -142,9 +182,10 @@ export default function UserProfile() {
                 <input
                   type="email"
                   name="email"
-                  value={profile.email || ""}
+                  value={editedProfile.email || ""}
+                  onChange={handleChange}
                   className="profile-edit-input"
-                  readOnly
+                  readOnly={!isEditing && !isAddMode}
                 />
               </div>
               <div>
@@ -163,9 +204,10 @@ export default function UserProfile() {
                 <input
                   type="text"
                   name="citizen_id"
-                  value={profile.citizen_id || ""}
+                  value={editedProfile.citizen_id || ""}
+                  onChange={handleChange}
                   className="profile-edit-input"
-                  readOnly
+                  readOnly={!isEditing}
                 />
               </div>
               <div>
@@ -173,9 +215,10 @@ export default function UserProfile() {
                 <input
                   type="date"
                   name="dob"
-                  value={profile.dob || ""}
+                  value={editedProfile.dob || ""}
                   className="profile-edit-input"
                   readOnly={!isEditing}
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -204,6 +247,19 @@ export default function UserProfile() {
                   readOnly={!isEditing}
                 />
               </div>
+
+              {isAddMode && (
+                <div>
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={editedProfile.password || ""}
+                    onChange={handleChange}
+                    className="profile-edit-input"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="detail-section right-column">
@@ -238,23 +294,24 @@ export default function UserProfile() {
           <div className="profile-actions">
             {isEditing ? (
               <>
-                <button
-                  className="profile-cancel-button"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </button>
+                {!isAddMode && (
+                  <button
+                    className="profile-cancel-button"
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </button>
+                )}
                 <button className="profile-done-button" onClick={handleSave}>
-                  Done
+                  {isAddMode ? "Add" : "Done"}
                 </button>
               </>
             ) : (
-              <>
+              !isAddMode && (
                 <button className="profile-edit-button" onClick={handleEdit}>
                   Edit
                 </button>
-                {/* Nút Change Password đã ghim ở trên, có thể bỏ ở đây nếu muốn */}
-              </>
+              )
             )}
           </div>
 

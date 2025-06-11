@@ -24,12 +24,11 @@ function App() {
             </RequireAuth>
           }
         >
-          <Route path="" element={<UserList />} />
-          <Route path=":id" element={<UserProfile />} />
+          <Route path="account" element={<UserProfile />} />
         </Route>
 
         <Route
-          path="/admin/home"
+          path="/admin"
           element={
             <RequireAuth>
               <RequireRole role="admin">
@@ -39,8 +38,16 @@ function App() {
           }
         >
           <Route path="users" element={<UserList />} />
-          <Route path="users/:id" element={<UserProfile />} />
+          <Route path="users/:userId" element={<UserProfile />} />
         </Route>
+        <Route
+          path="/account"
+          element={
+            <RequireAuth>
+              <UserProfile />
+            </RequireAuth>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

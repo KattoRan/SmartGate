@@ -81,36 +81,36 @@ function Sidebar() {
               <Nav className="sidebar-nav flex-column">
                 <Nav.Link
                   as={Link}
-                  to="/admin/home/users"
-                  active={isActive("/admin/home/users")}
+                  to="/admin/users"
+                  active={isActive("/admin/users")}
                 >
                   <BsPeopleFill size={18} /> Người dùng
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/admin/home/cards"
-                  active={isActive("/admin/home/cards")}
+                  to="/admin/cards"
+                  active={isActive("/admin/cards")}
                 >
                   <BsCreditCard2FrontFill size={18} /> Thẻ ra vào
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/admin/home/stats"
-                  active={isActive("/admin/home/stats")}
+                  to="/admin/stats"
+                  active={isActive("/admin/stats")}
                 >
                   <BsBarChartFill size={18} /> Thống kê
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/admin/home/settings"
-                  active={isActive("/admin/home/settings")}
+                  to="/admin/settings"
+                  active={isActive("/admin/settings")}
                 >
                   <BsGearFill size={18} /> Cấu hình
                 </Nav.Link>
                 <Nav.Link
                   as={Link}
-                  to="/admin/home/security"
-                  active={isActive("/admin/home/security")}
+                  to="/admin/security"
+                  active={isActive("/admin/security")}
                 >
                   <BsShieldLockFill size={18} /> Quản trị
                 </Nav.Link>

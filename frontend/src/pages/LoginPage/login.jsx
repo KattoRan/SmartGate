@@ -24,9 +24,9 @@ const Login = () => {
         sessionStorage.setItem("token", userData.token);
         localStorage.setItem("user", JSON.stringify(userData.user));
         if (userData.user.role === "admin") {
-          navigate("/admin/home");
+          navigate("/admin/users");
         } else {
-          navigate("/home");
+          navigate("/home/account");
         }
       } catch (error) {
         setError(error.message || "Đăng nhập thất bại");
